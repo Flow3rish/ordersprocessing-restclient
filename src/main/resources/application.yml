@@ -1,0 +1,11 @@
+spring.main.web-application-type=none
+
+restserver.address=http://none.cz
+
+
+spring:
+    main:
+        web-application-type: none
+
+restserver:
+    address: http://ordersprocessing.chrubasik.cloud/
