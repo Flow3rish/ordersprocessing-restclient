@@ -6,13 +6,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import cloud.chrubasik.ordersprocessingrestclient.ApiClient;
+import cloud.chrubasik.ordersprocessingrestclient.api.OrderControllerApi;
+
+
 @Configuration
 public class ServerApiConfiguration {
     @Value("$restserver.address")
     public String serverAddress;
 
     @Bean
-    public OrderControllerApi(ApiClient apiClient) {
+    public OrderControllerApi orderControllerApi(ApiClient apiClient) {
         return new OrderControllerApi(apiClient);
     }
 

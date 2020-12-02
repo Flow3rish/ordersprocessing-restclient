@@ -1,0 +1,207 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /customers/{customerId}/orders:
+    get:
+      tags:
+      - order-controller
+      summary: Gets a list of all orders for customer id.
+      operationId: all_1
+      parameters:
+      - name: customerId
+        in: path
+        description: Id of the customer
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: "A list of all orders for customer with {id}"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      tags:
+      - order-controller
+      summary: Create a new order for customer.
+      operationId: postOrder
+      parameters:
+      - name: customerId
+        in: path
+        description: customer for whom to create an order
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderToPost'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /customers:
+    get:
+      tags:
+      - customer-controller
+      summary: Gets a list of all customers.
+      operationId: all
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: A list of all customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+  /customers/{id}:
+    get:
+      tags:
+      - customer-controller
+      summary: Gets detail of one customer by id.
+      operationId: one
+      parameters:
+      - name: id
+        in: path
+        description: Id of the customer
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: A detail of a customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /customers/{customerId}/orders/{orderId}:
+    get:
+      tags:
+      - order-controller
+      summary: Gets detail of one order by id for customer id.
+      operationId: one_1
+      parameters:
+      - name: customerId
+        in: path
+        description: Id of the customer
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: orderId
+        in: path
+        description: Id of the order
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: A detail of an order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    delete:
+      tags:
+      - order-controller
+      summary: Delete order by id for customer.
+      operationId: deleteOrder
+      parameters:
+      - name: customerId
+        in: path
+        description: customer for whom to delete an order
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: orderId
+        in: path
+        description: Id of the order to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+components:
+  schemas:
+    OrderToPost:
+      type: object
+      properties:
+        description:
+          type: string
+    Order:
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          format: int64
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
