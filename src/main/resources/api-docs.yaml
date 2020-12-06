@@ -67,6 +67,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
+    delete:
+      tags:
+      - order-controller
+      summary: Delete order by id for customer.
+      operationId: deleteOrder
+      parameters:
+      - name: customerId
+        in: path
+        description: customer for whom to delete an order
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: orderId
+        in: query
+        description: Id of the order to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
   /customers:
     get:
       tags:
@@ -149,39 +182,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-    delete:
-      tags:
-      - order-controller
-      summary: Delete order by id for customer.
-      operationId: deleteOrder
-      parameters:
-      - name: customerId
-        in: path
-        description: customer for whom to delete an order
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: orderId
-        in: path
-        description: Id of the order to delete
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "404":
-          description: Not Found
-          content:
-            '*/*':
-              schema:
-                type: string
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
 components:
   schemas:
     OrderToPost:
@@ -192,11 +192,11 @@ components:
     Order:
       type: object
       properties:
-        description:
-          type: string
         id:
           type: integer
           format: int64
+        description:
+          type: string
     Customer:
       type: object
       properties:
